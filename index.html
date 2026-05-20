@@ -498,6 +498,67 @@
       </div>
     </div>
 
+    <!-- Q6: Rubro -->
+    <div class="q-card">
+      <div class="q-meta"><div class="q-num">6</div><div><div class="q-text">¿A qué rubro te dedicás?</div></div></div>
+      <input type="text" id="q6" placeholder="Ej: Agropecuario, Construcción, Transporte..." oninput="updateProgress()" style="width:100%; padding:11px 14px; border:1.5px solid var(--dust-dark); border-radius:10px; background:var(--dust); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text); outline:none; transition:border-color 0.2s;">
+    </div>
+
+    <!-- Q7: Pickup -->
+    <div class="q-card">
+      <div class="q-meta"><div class="q-num">7</div><div><div class="q-text">¿Sos usuario de una pickup?</div></div></div>
+      <div class="options" id="q7">
+        <button class="opt" onclick="pickPickup(this,'Sí')"><span class="opt-indicator"><span class="opt-indicator-inner"></span></span>Sí</button>
+        <button class="opt" onclick="pickPickup(this,'No')"><span class="opt-indicator"><span class="opt-indicator-inner"></span></span>No</button>
+      </div>
+      <div id="pickup-details" style="display:none; margin-top:14px; display:none;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+          <div>
+            <label style="font-size:12px; font-weight:500; color:var(--text-light); display:block; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.06em;">Marca</label>
+            <input type="text" id="pickup-marca" placeholder="Ej: Toyota" oninput="updateProgress()" style="width:100%; padding:10px 12px; border:1.5px solid var(--dust-dark); border-radius:10px; background:var(--dust); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text); outline:none; transition:border-color 0.2s;">
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:500; color:var(--text-light); display:block; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.06em;">Año</label>
+            <input type="number" id="pickup-anio" placeholder="Ej: 2020" min="1990" max="2026" oninput="updateProgress()" style="width:100%; padding:10px 12px; border:1.5px solid var(--dust-dark); border-radius:10px; background:var(--dust); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text); outline:none; transition:border-color 0.2s;">
+          </div>
+        </div>
+        <label style="font-size:12px; font-weight:500; color:var(--text-light); display:block; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.06em;">Modelo</label>
+        <input type="text" id="pickup-modelo" placeholder="Ej: Hilux SR 4x4" oninput="updateProgress()" style="width:100%; padding:10px 12px; border:1.5px solid var(--dust-dark); border-radius:10px; background:var(--dust); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text); outline:none; transition:border-color 0.2s;">
+      </div>
+    </div>
+
+    <!-- Q8: Provincia -->
+    <div class="q-card">
+      <div class="q-meta"><div class="q-num">8</div><div><div class="q-text">¿De qué provincia sos?</div></div></div>
+      <select id="q8" onchange="updateProgress()" style="width:100%; padding:11px 14px; border:1.5px solid var(--dust-dark); border-radius:10px; background:var(--dust); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text); outline:none; transition:border-color 0.2s; cursor:pointer;">
+        <option value="">Seleccioná tu provincia...</option>
+        <option>Buenos Aires</option>
+        <option>CABA</option>
+        <option>Catamarca</option>
+        <option>Chaco</option>
+        <option>Chubut</option>
+        <option>Córdoba</option>
+        <option>Corrientes</option>
+        <option>Entre Ríos</option>
+        <option>Formosa</option>
+        <option>Jujuy</option>
+        <option>La Pampa</option>
+        <option>La Rioja</option>
+        <option>Mendoza</option>
+        <option>Misiones</option>
+        <option>Neuquén</option>
+        <option>Río Negro</option>
+        <option>Salta</option>
+        <option>San Juan</option>
+        <option>San Luis</option>
+        <option>Santa Cruz</option>
+        <option>Santa Fe</option>
+        <option>Santiago del Estero</option>
+        <option>Tierra del Fuego</option>
+        <option>Tucumán</option>
+      </select>
+    </div>
+
     <div class="submit-area">
       <button class="btn-submit" id="btn-send" disabled onclick="submit()">
         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
@@ -584,6 +645,21 @@
     document.getElementById('btn-send').disabled = filled < 3 || !otraOk || !talvezOk || !emailOk;
   }
 
+  function pickPickup(btn, val) {
+    document.querySelectorAll('#q7 .opt').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    const details = document.getElementById('pickup-details');
+    if (val === 'Sí') {
+      details.style.display = 'block';
+    } else {
+      details.style.display = 'none';
+      document.getElementById('pickup-marca').value = '';
+      document.getElementById('pickup-anio').value = '';
+      document.getElementById('pickup-modelo').value = '';
+    }
+    updateProgress();
+  }
+
   function pickQ5(btn, val) {
     document.querySelectorAll('#q5 .opt').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
@@ -600,7 +676,7 @@
     updateProgress();
   }
 
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdRJqIIsYbACHbgIT7-XztBbH38znaJgXctRb_GsW_Ieee4CxBPZJr01VtUjDcg0NEDg/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyIHVL71T3mMuIFZAEDfgU45DbsOmaag7gn2I845ii9rWj1lD0eBzob2-b6ypR3bP82cQ/exec';
 
   function submit() {
     const btn = document.getElementById('btn-send');
@@ -608,6 +684,7 @@
     btn.textContent = 'Enviando...';
 
     const q4selected = Array.from(document.querySelectorAll('#q4 .opt.selected')).map(b => b.textContent.trim());
+    const pickupBtn = document.querySelector('#q7 .opt.selected');
     const payload = {
       email: document.getElementById('q-email').value.trim(),
       q1: ans.q1,
@@ -615,7 +692,13 @@
       q3: document.getElementById('q3').value.trim(),
       q4: q4selected.join(', '),
       q5: ans.q5,
-      q5opinion: document.getElementById('q5-talvez-text').value.trim()
+      q5opinion: document.getElementById('q5-talvez-text').value.trim(),
+      q6: document.getElementById('q6').value.trim(),
+      q7: pickupBtn ? pickupBtn.textContent.trim() : '',
+      pickup_marca: document.getElementById('pickup-marca').value.trim(),
+      pickup_anio: document.getElementById('pickup-anio').value.trim(),
+      pickup_modelo: document.getElementById('pickup-modelo').value.trim(),
+      q8: document.getElementById('q8').value
     };
 
     fetch(SCRIPT_URL, {
